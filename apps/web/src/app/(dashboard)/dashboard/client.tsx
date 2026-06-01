@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Plus, Clock, CheckCircle2, CalendarDays, Copy, ExternalLink } from "lucide-react";
 import { CreateEventModal } from "./create-event-modal";
-import { useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -36,6 +36,7 @@ const STATUS_CONFIG = {
 export function DashboardClient({ events, stats, djName }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   useGSAP(
     () => {
@@ -179,7 +180,8 @@ export function DashboardClient({ events, stats, djName }: Props) {
                 return (
                   <tr
                     key={event.id}
-                    className="event-row opacity-0 translate-y-2 border-b border-[var(--border)]/50 last:border-0 hover:bg-[var(--border)]/30 transition-colors"
+                    className="event-row opacity-0 translate-y-2 border-b border-[var(--border)]/50 last:border-0 hover:bg-[var(--border)]/30 transition-colors cursor-pointer"
+                    onClick={() => router.push(`/events/${event.id}`)}
                   >
                     <td className="px-6 py-4">
                       <p className="text-[var(--text)] font-medium text-sm">{event.name}</p>
@@ -197,7 +199,7 @@ export function DashboardClient({ events, stats, djName }: Props) {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                         <button
                           onClick={() => copyLink(event.id)}
                           title="Copiar link do cliente"

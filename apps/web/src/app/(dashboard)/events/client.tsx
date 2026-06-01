@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Plus, Copy, ExternalLink, Clock, CheckCircle2, XCircle } from "lucide-react";
 import { CreateEventModal } from "../dashboard/create-event-modal";
 
@@ -29,6 +30,7 @@ export function EventsClient({ events }: { events: Event[] }) {
   const container = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
   const [filter, setFilter] = useState<"ALL" | "PENDING" | "SUBMITTED" | "EXPIRED">("ALL");
+  const router = useRouter();
 
   useGSAP(
     () => {
@@ -106,7 +108,8 @@ export function EventsClient({ events }: { events: Event[] }) {
             return (
               <div
                 key={event.id}
-                className="event-card flex items-center gap-4 bg-[var(--border)]/30 border border-[var(--border)] rounded-xl px-5 py-4 hover:border-[var(--muted)] transition-colors"
+                className="event-card flex items-center gap-4 bg-[var(--border)]/30 border border-[var(--border)] rounded-xl px-5 py-4 hover:border-[var(--muted)] transition-colors cursor-pointer"
+                onClick={() => router.push(`/events/${event.id}`)}
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-[var(--text)] truncate">{event.name}</p>
@@ -122,7 +125,7 @@ export function EventsClient({ events }: { events: Event[] }) {
                   <StatusIcon size={11} />
                   {s.label}
                 </span>
-                <div className="flex items-center gap-1 shrink-0">
+                <div className="flex items-center gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
                   <button
                     onClick={() => copyLink(event.id)}
                     title="Copiar link"
