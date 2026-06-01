@@ -11,6 +11,7 @@ import {
   LogOut,
   Music2
 } from "lucide-react";
+import { NotificationBell } from "@/components/notification-bell";
 
 const nav = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -24,14 +25,15 @@ export function Sidebar() {
 
   return (
     <aside className="flex flex-col w-60 min-h-screen bg-[var(--bg)] border-r border-[var(--border)] px-4 py-6">
-      {/* Logo */}
+      {/* Logo + Bell */}
       <div className="flex items-center gap-2 mb-10 px-2">
         <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center">
           <Music2 size={16} className="text-black" />
         </div>
-        <span className="font-display font-bold text-lg text-[var(--text)] tracking-tight">
+        <span className="font-display font-bold text-lg text-[var(--text)] tracking-tight flex-1">
           DJ Desk
         </span>
+        <NotificationBell />
       </div>
 
       {/* Navigation */}
